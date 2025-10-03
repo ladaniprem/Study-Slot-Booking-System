@@ -4,12 +4,54 @@
  * Enhanced with PDO connection, error handling, and security
  */
 
-// Load environment variables from .env file
-require_once __DIR__ . '/../vendor/autoload.php';
+// Load environment variables from .env file (with fallback for missing composer)
+$vendorAutoload = __DIR__ . '/../vendor/autoload.php';
+if (file_exists($vendorAutoload)) {
+    // Use Composer's dotenv if available
+    require_once $vendorAutoload;
+    
+    try {
+        $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
+        $dotenv->load();
+    } catch (Exception $e) {
+        // Fallback to manual loading if dotenv fails
+        loadEnvFile(__DIR__ . '/../.env');
+    }
+} else {
+    // Manual .env file loading for environments without Composer
+    loadEnvFile(__DIR__ . '/../.env');
+}
 
-// Create Dotenv instance
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
-$dotenv->load();
+/**
+ * Manual .env file loader (fallback when Composer is not available)
+ */
+function loadEnvFile($envFile) {
+    if (!file_exists($envFile)) {
+        return;
+    }
+    
+    $lines = file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($lines as $line) {
+        if (strpos(trim($line), '#') === 0) {
+            continue; // Skip comments
+        }
+        
+        if (strpos($line, '=') !== false) {
+            list($key, $value) = explode('=', $line, 2);
+            $key = trim($key);
+            $value = trim($value);
+            
+            // Remove quotes if present
+            if ((substr($value, 0, 1) === '"' && substr($value, -1) === '"') ||
+                (substr($value, 0, 1) === "'" && substr($value, -1) === "'")) {
+                $value = substr($value, 1, -1);
+            }
+            
+            $_ENV[$key] = $value;
+            putenv("$key=$value");
+        }
+    }
+}
 
 // Database configuration constants from environment variables
 define('DB_HOST', $_ENV['DB_HOST'] ?? 'localhost');
@@ -21,9 +63,9 @@ define('DB_CHARSET', $_ENV['DB_CHARSET'] ?? 'utf8mb4');
 // Security and application constants from environment variables
 define('APP_NAME', $_ENV['APP_NAME'] ?? 'Study Slot Booking System');
 define('APP_VERSION', $_ENV['APP_VERSION'] ?? '2.0');
-define('SESSION_TIMEOUT', $_ENV['SESSION_TIMEOUT'] ?? 3600);
-define('MAX_LOGIN_ATTEMPTS', $_ENV['MAX_LOGIN_ATTEMPTS'] ?? 5);
-define('LOCKOUT_TIME', $_ENV['LOCKOUT_TIME'] ?? 900);
+define('SESSION_TIMEOUT', (int)($_ENV['SESSION_TIMEOUT'] ?? 3600));
+define('MAX_LOGIN_ATTEMPTS', (int)($_ENV['MAX_LOGIN_ATTEMPTS'] ?? 5));
+define('LOCKOUT_TIME', (int)($_ENV['LOCKOUT_TIME'] ?? 900));
 
 // Encryption key for session security
 define('ENCRYPTION_KEY', $_ENV['ENCRYPTION_KEY'] ?? 'your-secret-encryption-key-change-this');
