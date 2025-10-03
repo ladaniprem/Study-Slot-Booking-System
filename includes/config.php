@@ -4,22 +4,29 @@
  * Enhanced with PDO connection, error handling, and security
  */
 
-// Database configuration constants
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'meeting_room_booking');
-define('DB_USER', 'root'); // Change this to your MySQL username
-define('DB_PASS', ''); // Change this to your MySQL password
-define('DB_CHARSET', 'utf8mb4');
+// Load environment variables from .env file
+require_once __DIR__ . '/../vendor/autoload.php';
 
-// Security and application constants
-define('APP_NAME', 'Study Slot Booking System');
-define('APP_VERSION', '2.0');
-define('SESSION_TIMEOUT', 3600); // 1 hour
-define('MAX_LOGIN_ATTEMPTS', 5);
-define('LOCKOUT_TIME', 900); // 15 minutes
+// Create Dotenv instance
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
+$dotenv->load();
 
-// Encryption key for session security (change this to a random string)
-define('ENCRYPTION_KEY', 'your-secret-encryption-key-change-this');
+// Database configuration constants from environment variables
+define('DB_HOST', $_ENV['DB_HOST'] ?? 'localhost');
+define('DB_NAME', $_ENV['DB_NAME'] ?? 'meeting_room_booking');
+define('DB_USER', $_ENV['DB_USER'] ?? 'root');
+define('DB_PASS', $_ENV['DB_PASS'] ?? '');
+define('DB_CHARSET', $_ENV['DB_CHARSET'] ?? 'utf8mb4');
+
+// Security and application constants from environment variables
+define('APP_NAME', $_ENV['APP_NAME'] ?? 'Study Slot Booking System');
+define('APP_VERSION', $_ENV['APP_VERSION'] ?? '2.0');
+define('SESSION_TIMEOUT', $_ENV['SESSION_TIMEOUT'] ?? 3600);
+define('MAX_LOGIN_ATTEMPTS', $_ENV['MAX_LOGIN_ATTEMPTS'] ?? 5);
+define('LOCKOUT_TIME', $_ENV['LOCKOUT_TIME'] ?? 900);
+
+// Encryption key for session security
+define('ENCRYPTION_KEY', $_ENV['ENCRYPTION_KEY'] ?? 'your-secret-encryption-key-change-this');
 
 class Database
 {

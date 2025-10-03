@@ -1,0 +1,29 @@
+# Environment variables
+.env
+
+# Composer dependencies
+/vendor/
+
+# Log files
+/logs/*.log
+
+# QR codes (if you don't want to commit them)
+/qr_codes/*.svg
+/qr_codes/*.html
+
+# Temporary files
+*.tmp
+*.temp
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-*
+
+# Backup files
+*.bak
+*.backup
