@@ -487,6 +487,100 @@ try {
         </section>
     <?php endif; ?>
 
+    <!-- Quick Links Section -->
+    <section class="features-section" id="quick-links">
+        <div class="container">
+            <div class="row text-center mb-4">
+                <div class="col-12">
+                    <h2 class="h2 mb-3">Quick Access</h2>
+                    <p class="text-muted">Jump directly to important pages in the application</p>
+                </div>
+            </div>
+
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <a class="d-block p-3 text-decoration-none" href="auth.php">
+                        <div class="feature-card text-center">
+                            <i class="fas fa-sign-in-alt fa-2x mb-2"></i>
+                            <h6 class="mt-2">Sign In / Register</h6>
+                            <p class="small text-muted">Login or create an account</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-3">
+                    <a class="d-block p-3 text-decoration-none" href="dashboard.php">
+                        <div class="feature-card text-center">
+                            <i class="fas fa-tachometer-alt fa-2x mb-2"></i>
+                            <h6 class="mt-2">Dashboard</h6>
+                            <p class="small text-muted">View your bookings and stats</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-3">
+                    <a class="d-block p-3 text-decoration-none" href="book-room.php">
+                        <div class="feature-card text-center">
+                            <i class="fas fa-calendar-plus fa-2x mb-2"></i>
+                            <h6 class="mt-2">Book a Room</h6>
+                            <p class="small text-muted">Create a new booking</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-3">
+                    <a class="d-block p-3 text-decoration-none" href="my-bookings.php">
+                        <div class="feature-card text-center">
+                            <i class="fas fa-folder-open fa-2x mb-2"></i>
+                            <h6 class="mt-2">My Bookings</h6>
+                            <p class="small text-muted">Manage your reservations</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-3">
+                    <a class="d-block p-3 text-decoration-none" href="profile.php">
+                        <div class="feature-card text-center">
+                            <i class="fas fa-user fa-2x mb-2"></i>
+                            <h6 class="mt-2">Profile</h6>
+                            <p class="small text-muted">Edit your profile</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-3">
+                    <a class="d-block p-3 text-decoration-none" href="qr-scanner.php">
+                        <div class="feature-card text-center">
+                            <i class="fas fa-qrcode fa-2x mb-2"></i>
+                            <h6 class="mt-2">QR Scanner</h6>
+                            <p class="small text-muted">Scan and verify bookings</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-3">
+                    <a class="d-block p-3 text-decoration-none" href="generate-qr.php">
+                        <div class="feature-card text-center">
+                            <i class="fas fa-file-download fa-2x mb-2"></i>
+                            <h6 class="mt-2">Generate QR</h6>
+                            <p class="small text-muted">Create printable QR codes</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-3">
+                    <a class="d-block p-3 text-decoration-none" href="check_bookings.php">
+                        <div class="feature-card text-center">
+                            <i class="fas fa-check-circle fa-2x mb-2"></i>
+                            <h6 class="mt-2">Check Bookings</h6>
+                            <p class="small text-muted">Admin booking overview</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Call to Action Section -->
     <section class="cta-section">
         <div class="container">

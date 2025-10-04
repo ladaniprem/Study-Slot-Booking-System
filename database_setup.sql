@@ -105,17 +105,13 @@ GO
 
 -- SQL Server does not support BEFORE INSERT triggers or DELIMITER.
 -- You can use an AFTER INSERT trigger for booking_reference generation.
-
-CREATE TRIGGER trg_generate_booking_reference
-ON bookings
-AFTER INSERT
-AS
-BEGIN
-    UPDATE b
-    SET booking_reference = 'BK' + CONVERT(VARCHAR(8), GETDATE(), 112) + RIGHT('0000' + CAST(b.booking_id AS VARCHAR(4)), 4)
-    FROM bookings b
-    INNER JOIN inserted i ON b.booking_id = i.booking_id
-    WHERE b.booking_reference IS NULL;
-END
-
-GO
+-- Note: many shared hosts (including InfinityFree) do NOT allow TRIGGER creation
+-- because the database user lacks TRIGGER privileges. Instead of creating a
+-- database trigger to populate `booking_reference`, the application code
+-- generates and writes a unique booking reference when creating a booking.
+--
+-- If you manage your own MySQL server and want a DB trigger, add it
+-- manually with an account that has TRIGGER privileges. The application
+-- already generates booking references safely in PHP, so this SQL file
+-- intentionally does not create a TRIGGER to ensure compatibility with
+-- restricted hosting environments.

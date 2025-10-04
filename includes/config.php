@@ -4,12 +4,52 @@
  * Enhanced with PDO connection, error handling, and security
  */
 
-// Load environment variables from .env file
-require_once __DIR__ . '/../vendor/autoload.php';
+// Load environment variables from .env file (safe for environments without Composer)
+$vendorAutoload = __DIR__ . '/../vendor/autoload.php';
+if (file_exists($vendorAutoload)) {
+    // Use Composer's autoloader and vlucas/phpdotenv when available
+    require_once $vendorAutoload;
+    try {
+        if (class_exists('\Dotenv\\Dotenv')) {
+            $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
+            $dotenv->load();
+        }
+    } catch (Exception $e) {
+        // ignore and fall back to manual loader
+    }
+}
 
-// Create Dotenv instance
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
-$dotenv->load();
+// If dotenv didn't populate environment variables, load .env manually
+if (empty($_ENV['DB_HOST']) || empty($_ENV['DB_NAME'])) {
+    $envFile = __DIR__ . '/../.env';
+    if (file_exists($envFile)) {
+        $lines = file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        foreach ($lines as $line) {
+            $line = trim($line);
+            if ($line === '' || $line[0] === '#') continue;
+            if (strpos($line, '=') !== false) {
+                list($key, $value) = explode('=', $line, 2);
+                $key = trim($key);
+                $value = trim($value);
+                if ((substr($value, 0, 1) === '"' && substr($value, -1) === '"') ||
+                    (substr($value, 0, 1) === "'" && substr($value, -1) === "'")) {
+                    $value = substr($value, 1, -1);
+                }
+                $_ENV[$key] = $value;
+                putenv("$key=$value");
+            }
+        }
+
+            // Optional debug mode: set DEBUG=1 in .env to show and log PHP errors (only for debugging)
+            if (!empty($_ENV['DEBUG']) && $_ENV['DEBUG'] === '1') {
+                ini_set('display_errors', 1);
+                ini_set('display_startup_errors', 1);
+                error_reporting(E_ALL);
+            } else {
+                ini_set('display_errors', 0);
+            }
+    }
+}
 
 // Database configuration constants from environment variables
 define('DB_HOST', $_ENV['DB_HOST'] ?? 'localhost');
