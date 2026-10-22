@@ -17,7 +17,7 @@ if (empty($booking_ref)) {
     try {
         $db = Database::getInstance()->getConnection();
 
-        // Get booking by reference (no login required for verification)
+        // Get booking by reference
         $stmt = $db->prepare("SELECT * FROM booking_details WHERE booking_reference = ?");
         $stmt->execute([$booking_ref]);
         $booking = $stmt->fetch();
