@@ -18,12 +18,12 @@ if (empty($booking_ref)) {
 // Get booking details
 try {
     $db = Database::getInstance()->getConnection();
-    $stmt = $db->prepare("SELECT * FROM booking_details WHERE booking_reference = ?");
-    $stmt->execute([$booking_ref]);
+    $stmt = $db->prepare("SELECT * FROM booking_details WHERE booking_reference = ? AND username = ?");
+    $stmt->execute([$booking_ref, SessionManager::getUsername()]);
     $booking = $stmt->fetch();
 
     if (!$booking) {
-        header('Location: my-bookings.php?error=booking_not_found');
+        header('Location: my-bookings.php?error=booking_not_found_or_unauthorized');
         exit();
     }
 } catch (Exception $e) {

@@ -1,6 +1,12 @@
 <?php
 require_once 'includes/config.php';
 
+// Restrict verification details to authenticated users
+if (!SessionManager::isLoggedIn()) {
+    header('Location: auth.php');
+    exit();
+}
+
 $booking_ref = $_GET['ref'] ?? '';
 $error = '';
 $booking = null;
