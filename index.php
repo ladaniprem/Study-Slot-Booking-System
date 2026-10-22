@@ -568,15 +568,6 @@ try {
                     </a>
                 </div>
 
-                <div class="col-md-3">
-                    <a class="d-block p-3 text-decoration-none" href="check_bookings.php">
-                        <div class="feature-card text-center">
-                            <i class="fas fa-check-circle fa-2x mb-2"></i>
-                            <h6 class="mt-2">Check Bookings</h6>
-                            <p class="small text-muted">Admin booking overview</p>
-                        </div>
-                    </a>
-                </div>
             </div>
         </div>
     </section>
